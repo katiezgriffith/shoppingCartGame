@@ -22,17 +22,13 @@ let player = {
 function Product(id, name, price, expiryDate) {
     this.id = id;
     this.name = name;
-    this.price = price,
+    this.price = price;
     this.expiryDate = expiryDate;
 
 }
 // Complete the dateDiff function
 const dateDiff = (date1, date2) => {
-    let timeDiff = Math.abs(date2.getTime() - date1.getTime());
-
-    let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-    return diffDays
+    return Math.ceil(Math.abs(date1 - date2) / (1000 * 60 * 60 *24));
 
 };
 
@@ -44,7 +40,7 @@ Object.defineProperty(Product.prototype, 'daysToExpire', {
 });
 // Add method getDetails to Product here
 Product.prototype.getDetails = function() {
-    return 'Product Name: ${this.name}, Product Price: ${this.price}'
+    return `Product Name: ${this.name}, Product Price: ${this.price}`
 }
 // Define the MagicProduct class here
 function MagicProduct(id, name, price, expiryDate, points, isBonus) {
@@ -60,14 +56,24 @@ class Rating {
         this.rate = "";
     }
 
-    set rating(value)
+    set rating(value){
+        if (value > 1 && value <= 4) {
+            this.rate = "OK"
+        } else if (value >= 5 && value <= 7){
+            this.rate = "GOOD";
+        } else if (value > 7) {
+            this.rate = "EXCEPTIONAL";
+        } else {
+            this.rate = "BAD"
+        }
+    }
 }
 // Complete the loadProducts function
 const loadProducts = (map, prodId) => {
     let a = new Array();
     try {
         // Call Object.keys() to load the property names of the Product object in to prodKeys array here
-        let prodKeys = [];
+        let prodKeys = Object.keys(new Product());
 
         let iterator_obj = map.entries();
 
@@ -77,7 +83,7 @@ const loadProducts = (map, prodId) => {
                 const value = item[1];
 
                 // Create and assign an instance of Product to prodObj here
-                let prodObj;
+                let prodObj = new Product();
 
                 if (prodObj != undefined && prodObj != null) {
                     for (let i = 0; i < prodKeys.length; i++) {
@@ -111,7 +117,7 @@ const loadMagicProducts = (map, prodId) => {
     let a = new Array();
     try {
         // Call Object.key() to load the property names of the MagicProduct object in to magProdKeys array here
-        let magProdKeys = [];
+        let magProdKeys = Object.keys(new MagicProduct());
 
         let iterator_obj = map.entries();
 
@@ -121,7 +127,7 @@ const loadMagicProducts = (map, prodId) => {
                 const value = item[1];
 
                 // Create and assign an instance of MagicProduct to prodObj here
-                let magProdObj;
+                let magProdObj = new MagicProduct();
 
                 if (magProdObj != undefined && magProdObj != null) {
                     for (let i = 0; i < magProdKeys.length; i++) {
