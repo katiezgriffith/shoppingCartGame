@@ -40,7 +40,7 @@ Object.defineProperty(Product.prototype, 'daysToExpire', {
 });
 // Add method getDetails to Product here
 Product.prototype.getDetails = function() {
-    return `Product Name: ${this.name}, Product Price: ${this.price}`
+    return `Product Name: ${this.name} , Product Price: ${this.price}`
 }
 // Define the MagicProduct class here
 function MagicProduct(id, name, price, expiryDate, points, isBonus) {
@@ -250,12 +250,22 @@ const findPointsToBill = (roundedTotal) => {
 
 
 // Complete this function
-const findPointsForExpDate = (prod) => {};
+const findPointsForExpDate = (prod) => {
+    return prod.daysToExpire < 30 ? 10 : 0
+};
 
 
 const calculatePoints = (prod, tBill) => {
     let pointsToBill = findPointsToBill(Math.round(tBill));
     let pointsForExpDate = findPointsForExpDate(prod);
+    player.score = player.score + pointsToBill + pointsForExpDate
+    if(prod instanceof MagicProduct){
+        if(prod.isBonus){
+        player.addPoints(prod.points);
+    } else {
+        player.deductPoints(prod.points)
+        }
+    }
 };
 
 // Complete this function
